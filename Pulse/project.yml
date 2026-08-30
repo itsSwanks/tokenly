@@ -1,0 +1,81 @@
+name: Pulse
+options:
+  bundleIdPrefix: com.pulsedock
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: "NO"
+    ENABLE_APP_SANDBOX: "NO"
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: "YES"
+  configs:
+    Release:
+      ARCHS: "arm64 x86_64"
+      ONLY_ACTIVE_ARCH: "NO"
+packages:
+  PulseCore:
+    path: ../PulseCore
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    # Pinned exactly rather than a range: the updater is the one dependency that installs code
+    # on the user's machine, so a release is never silently built against a version nobody read.
+    exactVersion: "2.9.6"
+targets:
+  Pulse:
+    type: application
+    platform: macOS
+    sources: [Pulse]
+    dependencies:
+      - package: PulseCore
+      - package: Sparkle
+    info:
+      path: Pulse/Info.plist
+      properties:
+        CFBundleDisplayName: Pulse
+        CFBundleName: Pulse
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "3"
+        LSUIElement: true
+        LSMinimumSystemVersion: "14.0"
+        NSHumanReadableCopyright: "© Pulse contributors"
+        NSPrincipalClass: NSApplication
+        PulseRepositoryURL: "https://github.com/itsSwanks/pulse"
+        SUEnableAutomaticChecks: true
+        SUFeedURL: "https://raw.githubusercontent.com/itsSwanks/pulse/main/appcast.xml"
+        SUPublicEDKey: "nNYxo2bfdlFMd5JGNelSniBGYkblmA2F0byoe1uAyVs="
+        SUScheduledCheckInterval: 86400
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.pulsedock.mac
+        PRODUCT_NAME: Pulse
+        GENERATE_INFOPLIST_FILE: "NO"
+        ENABLE_PREVIEWS: "NO"
+  PulseTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [PulseTests]
+    dependencies:
+      - target: Pulse
+      - package: PulseCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+schemes:
+  Pulse:
+    build:
+      targets:
+        Pulse: all
+        PulseTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [PulseTests]
