@@ -1,0 +1,90 @@
+name: Pulse
+options:
+  # Only the test bundle takes this prefix — the app sets PRODUCT_BUNDLE_IDENTIFIER explicitly.
+  bundleIdPrefix: com.tokenly
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: "NO"
+    ENABLE_APP_SANDBOX: "NO"
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: "YES"
+  configs:
+    Release:
+      ARCHS: "arm64 x86_64"
+      ONLY_ACTIVE_ARCH: "NO"
+packages:
+  PulseCore:
+    path: ../PulseCore
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    # Pinned exactly rather than a range: the updater is the one dependency that installs code
+    # on the user's machine, so a release is never silently built against a version nobody read.
+    exactVersion: "2.9.6"
+targets:
+  Pulse:
+    type: application
+    platform: macOS
+    sources: [Pulse]
+    dependencies:
+      - package: PulseCore
+      - package: Sparkle
+    info:
+      path: Pulse/Info.plist
+      properties:
+        CFBundleDisplayName: Tokenly
+        CFBundleName: Tokenly
+        CFBundleShortVersionString: "0.2.0"
+        CFBundleVersion: "4"
+        LSUIElement: true
+        LSMinimumSystemVersion: "26.0"
+        NSHumanReadableCopyright: "© Tokenly contributors"
+        NSPrincipalClass: NSApplication
+        # Key name is internal (read by SettingsWindowController); the value is the renamed repo.
+        PulseRepositoryURL: "https://github.com/itsSwanks/tokenly"
+        SUEnableAutomaticChecks: true
+        SUFeedURL: "https://raw.githubusercontent.com/itsSwanks/tokenly/main/appcast.xml"
+        SUPublicEDKey: "nNYxo2bfdlFMd5JGNelSniBGYkblmA2F0byoe1uAyVs="
+        SUScheduledCheckInterval: 86400
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tokenly.mac
+        PRODUCT_NAME: Tokenly
+        # The *product* is Tokenly; the Swift module stays Pulse (it would otherwise follow
+        # PRODUCT_NAME), so every `@testable import Pulse` and the scheme keep working. Module
+        # names are code, not brand — same rule as PulseCore.
+        PRODUCT_MODULE_NAME: Pulse
+        GENERATE_INFOPLIST_FILE: "NO"
+        ENABLE_PREVIEWS: "NO"
+  PulseTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [PulseTests]
+    dependencies:
+      - target: Pulse
+      - package: PulseCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+        # XcodeGen derives TEST_HOST from the *target* name (Pulse), but the built product is
+        # named by PRODUCT_NAME (Tokenly). Point it at the real bundle, or the tests cannot launch.
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Tokenly.app/Contents/MacOS/Tokenly"
+schemes:
+  Pulse:
+    build:
+      targets:
+        Pulse: all
+        PulseTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [PulseTests]
