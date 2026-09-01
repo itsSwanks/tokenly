@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Pulse</title>
+        <item>
+            <title>0.2.0</title>
+            <pubDate>Mon, 31 Aug 2026 19:21:58 +0000</pubDate>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<style>.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}</style>
+<div class="n"><h2>Tokenly 0.2.0</h2><p>Tokenly 0.2.0 — Liquid Glass UI, redesigned settings with Appearance, in-app limit alerts.</p></div>
+]]></description>
+            <enclosure url="https://github.com/itsSwanks/tokenly/releases/download/v0.2.0/Tokenly-0.2.0.dmg" length="3783124" type="application/octet-stream" sparkle:edSignature="dVgKf75c6XZwvoe856kxrBvM8+rdqAgIk7WMfjZxQsOZSxlmYaxRGiDiVJ7+tyQX0GRhNcio7n75MbGCsHX8Dw=="/>
+        </item>
+        <item>
+            <title>0.1.0</title>
+            <pubDate>Sun, 30 Aug 2026 16:01:24 +0000</pubDate>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description>&lt;style&gt;.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}&lt;/style&gt;
+&lt;div class="n"&gt;&lt;h2&gt;Pulse 0.1.0&lt;/h2&gt;&lt;p&gt;First release: usage rings for Claude, Codex and Gemini, alerts, auto-hide, Sparkle updates.&lt;/p&gt;&lt;/div&gt;
+</description>
+            <enclosure url="https://github.com/itsSwanks/pulse/releases/download/v0.1.0/Pulse-0.1.0.dmg" length="2403830" type="application/octet-stream" sparkle:edSignature="6E9ytczKGhLi+o4CicEzYbYNTouZs3JzqheYR6I6uwlYGPI3Xx5jgIVUgcqFlrExcPBTRwQjSeLmMuvFxIMRDw=="/>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,26 @@
+# Xcode / Swift
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+.swiftpm/xcode/
+
+# Release tooling — never commit
+build/.sparkle_ed_private_key
+build/.anonymity-blocklist
+build/out/
+*.dmg
+
+# Captures taken from live accounts before redaction — unanchored so they stay
+# ignored wherever they land, including a nested checkout of this package.
+**/*.raw.json
+**/.captures/
+
+
+# macOS
+.DS_Store
+
+# Pulse app build products
+Pulse/build/
+build/release.env

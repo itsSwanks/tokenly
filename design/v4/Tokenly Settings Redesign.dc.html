@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<style>
+:root{--ease:cubic-bezier(0.32,0.72,0,1);}
+html,body{margin:0;background:#ededed;font-family:-apple-system,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+a{color:#32D74B;text-decoration:none}a:hover{color:#63e685}
+</style>
+</helmet>
+<section style="padding:44px 48px;background-color:#ededed;background-image:radial-gradient(circle,#d7d7d7 2.3px,transparent 2.4px);background-size:30px 30px;box-sizing:border-box;min-height:100vh">
+  <div style="margin-bottom:28px">
+    <div style="font-size:21px;font-weight:700;color:#1c1c1e">Settings — redesigned</div>
+    <div style="font-size:14px;color:#6e6e73;margin-top:4px;max-width:640px;text-wrap:pretty">Real macOS popover geometry: 13px rows, inset grouped lists, hairline separators, one accent. Green now means <em>on</em> only — selections are neutral, so the panel stops shouting.</div>
+  </div>
+  <div style="display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start">
+    <div id="1a" style="position:relative">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8e8e93;background:#f2f2f4;border-radius:6px;padding:3px 8px">1a</div>
+        <div style="font-size:14px;font-weight:600;color:#1c1c1e">Dark vibrancy</div>
+      </div>
+      <div style="width:352px;border-radius:16px;padding:14px 14px 12px;background:rgba(28,28,30,.82);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:0.5px solid rgba(255,255,255,.12);box-shadow:0 22px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.09);color:#fff">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px 12px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg width="19" height="19" viewBox="0 0 100 100" style="display:block;border-radius:5px;background:linear-gradient(160deg,#8fd0de 0%,#3d97ad 45%,#186079 80%,#0d3c54 100%)"><rect x="26" y="22" width="42" height="56" rx="14" fill="none" stroke="#fff" stroke-width="7"></rect><rect x="62" y="36" width="12" height="28" rx="6" fill="#fff"></rect></svg>
+            <div style="font-size:13px;font-weight:600;letter-spacing:-.08px">Tokenly</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-variant-numeric:tabular-nums">0.1.0</div>
+          </div>
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s" style-hover="background:rgba(255,255,255,.2)">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"></path></svg>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.38);padding:0 4px 6px">Providers</div>
+        <div style="border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:16px">
+          <sc-for list="{{providers}}" as="p" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:0 10px;height:38px;border-top:{{p.divider}};transition:background .12s" style-hover="background:rgba(255,255,255,.05)">
+              <div style="display:flex;flex-direction:column;gap:2.5px;cursor:grab;padding:5px 1px">
+                <div style="width:11px;height:1.5px;background:rgba(255,255,255,.3);border-radius:1px"></div>
+                <div style="width:11px;height:1.5px;background:rgba(255,255,255,.3);border-radius:1px"></div>
+              </div>
+              <svg width="15" height="15" viewBox="0 0 24 24" style="display:block;flex:none">{{p.glyph}}</svg>
+              <div style="flex:1;font-size:13px;letter-spacing:-.08px">{{p.name}}</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.35);font-variant-numeric:tabular-nums;margin-right:2px">{{p.state}}</div>
+              <div style="width:34px;height:20px;border-radius:10px;background:{{p.togBg}};position:relative;cursor:pointer;transition:background .2s;flex:none;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.14)">
+                <div style="position:absolute;top:1.5px;left:0;width:17px;height:17px;border-radius:50%;background:#fff;transform:translateX({{p.togX}}px);transition:transform .22s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.28)"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:16px">
+          <sc-for list="{{segRows}}" as="r" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 10px;height:40px;border-top:{{r.divider}}">
+              <div style="font-size:13px;letter-spacing:-.08px;white-space:nowrap">{{r.label}}</div>
+              <div style="display:flex;background:rgba(255,255,255,.07);border-radius:7px;padding:2px;gap:2px">
+                <sc-for list="{{r.opts}}" as="o" hint-placeholder-count="3">
+                  <div style="font-size:12px;padding:3.5px 11px;border-radius:5.5px;cursor:pointer;color:{{o.fg}};background:{{o.bg}};box-shadow:{{o.shadow}};font-weight:{{o.weight}};transition:background .15s;white-space:nowrap">{{o.label}}</div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:16px">
+          <sc-for list="{{toggleRows}}" as="t" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:0 10px;height:40px;border-top:{{t.divider}}">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;letter-spacing:-.08px">{{t.label}}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.36);margin-top:1px">{{t.sub}}</div>
+              </div>
+              <sc-if value="{{t.hasButton}}" hint-placeholder-val="{{false}}">
+                <div style="font-size:11.5px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.1);cursor:pointer;transition:background .15s;white-space:nowrap" style-hover="background:rgba(255,255,255,.18)">Check now</div>
+              </sc-if>
+              <div style="width:34px;height:20px;border-radius:10px;background:{{t.togBg}};position:relative;cursor:pointer;transition:background .2s;flex:none;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.14)">
+                <div style="position:absolute;top:1.5px;left:0;width:17px;height:17px;border-radius:50%;background:#fff;transform:translateX({{t.togX}}px);transition:transform .22s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.28)"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:0 4px 2px;font-size:11.5px;line-height:1.45;color:rgba(255,255,255,.42);text-wrap:pretty">Reads usage from your local Claude, Codex and Gemini sign-ins. Talks only to those providers and to GitHub for updates. No analytics.</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px 2px">
+          <a href="#1a" style="font-size:11.5px;color:#7cc6d8">View source on GitHub</a>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.55);cursor:pointer;padding:3px 8px;border-radius:6px;transition:background .15s,color .15s" style-hover="background:rgba(255,59,48,.16);color:#FF6961">Quit Tokenly</div>
+        </div>
+      </div>
+    </div>
+    <div id="1b" style="position:relative">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8e8e93;background:#f2f2f4;border-radius:6px;padding:3px 8px">1b</div>
+        <div style="font-size:14px;font-weight:600;color:#1c1c1e">Light vibrancy</div>
+      </div>
+      <div style="width:352px;border-radius:16px;padding:14px 14px 12px;background:rgba(246,246,248,.86);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:0.5px solid rgba(0,0,0,.09);box-shadow:0 22px 60px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.7);color:#1d1d1f">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px 12px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg width="19" height="19" viewBox="0 0 100 100" style="display:block;border-radius:5px;background:linear-gradient(160deg,#8fd0de 0%,#3d97ad 45%,#186079 80%,#0d3c54 100%)"><rect x="26" y="22" width="42" height="56" rx="14" fill="none" stroke="#fff" stroke-width="7"></rect><rect x="62" y="36" width="12" height="28" rx="6" fill="#fff"></rect></svg>
+            <div style="font-size:13px;font-weight:600;letter-spacing:-.08px">Tokenly</div>
+            <div style="font-size:11px;color:#8e8e93;font-variant-numeric:tabular-nums">0.1.0</div>
+          </div>
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s" style-hover="background:rgba(0,0,0,.14)">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#5f5f63" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"></path></svg>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#8e8e93;padding:0 4px 6px">Providers</div>
+        <div style="border-radius:10px;background:#fff;overflow:hidden;margin-bottom:16px;box-shadow:0 0 0 0.5px rgba(0,0,0,.06)">
+          <sc-for list="{{providersL}}" as="p" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:0 10px;height:38px;border-top:{{p.divider}};transition:background .12s" style-hover="background:#f7f7f9">
+              <div style="display:flex;flex-direction:column;gap:2.5px;cursor:grab;padding:5px 1px">
+                <div style="width:11px;height:1.5px;background:#c7c7cc;border-radius:1px"></div>
+                <div style="width:11px;height:1.5px;background:#c7c7cc;border-radius:1px"></div>
+              </div>
+              <svg width="15" height="15" viewBox="0 0 24 24" style="display:block;flex:none">{{p.glyph}}</svg>
+              <div style="flex:1;font-size:13px;letter-spacing:-.08px">{{p.name}}</div>
+              <div style="font-size:11px;color:#8e8e93;font-variant-numeric:tabular-nums;margin-right:2px">{{p.state}}</div>
+              <div style="width:34px;height:20px;border-radius:10px;background:{{p.togBg}};position:relative;cursor:pointer;transition:background .2s;flex:none">
+                <div style="position:absolute;top:1.5px;left:0;width:17px;height:17px;border-radius:50%;background:#fff;transform:translateX({{p.togX}}px);transition:transform .22s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.22)"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-radius:10px;background:#fff;overflow:hidden;margin-bottom:16px;box-shadow:0 0 0 0.5px rgba(0,0,0,.06)">
+          <sc-for list="{{segRowsL}}" as="r" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 10px;height:40px;border-top:{{r.divider}}">
+              <div style="font-size:13px;letter-spacing:-.08px;white-space:nowrap">{{r.label}}</div>
+              <div style="display:flex;background:#ececef;border-radius:7px;padding:2px;gap:2px">
+                <sc-for list="{{r.opts}}" as="o" hint-placeholder-count="3">
+                  <div style="font-size:12px;padding:3.5px 11px;border-radius:5.5px;cursor:pointer;color:{{o.fg}};background:{{o.bg}};box-shadow:{{o.shadow}};font-weight:{{o.weight}};transition:background .15s;white-space:nowrap">{{o.label}}</div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-radius:10px;background:#fff;overflow:hidden;margin-bottom:16px;box-shadow:0 0 0 0.5px rgba(0,0,0,.06)">
+          <sc-for list="{{toggleRowsL}}" as="t" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:0 10px;height:40px;border-top:{{t.divider}}">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;letter-spacing:-.08px">{{t.label}}</div>
+                <div style="font-size:11px;color:#8e8e93;margin-top:1px">{{t.sub}}</div>
+              </div>
+              <sc-if value="{{t.hasButton}}" hint-placeholder-val="{{false}}">
+                <div style="font-size:11.5px;padding:4px 10px;border-radius:6px;background:#ececef;cursor:pointer;transition:background .15s;white-space:nowrap" style-hover="background:#e0e0e4">Check now</div>
+              </sc-if>
+              <div style="width:34px;height:20px;border-radius:10px;background:{{t.togBg}};position:relative;cursor:pointer;transition:background .2s;flex:none">
+                <div style="position:absolute;top:1.5px;left:0;width:17px;height:17px;border-radius:50%;background:#fff;transform:translateX({{t.togX}}px);transition:transform .22s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.22)"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:0 4px 2px;font-size:11.5px;line-height:1.45;color:#8e8e93;text-wrap:pretty">Reads usage from your local Claude, Codex and Gemini sign-ins. Talks only to those providers and to GitHub for updates. No analytics.</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px 2px">
+          <a href="#1b" style="font-size:11.5px;color:#0066cc">View source on GitHub</a>
+          <div style="font-size:11.5px;color:#6e6e73;cursor:pointer;padding:3px 8px;border-radius:6px;transition:background .15s,color .15s" style-hover="background:rgba(255,59,48,.12);color:#d70015">Quit Tokenly</div>
+        </div>
+      </div>
+    </div>
+    <div style="width:300px;padding-top:38px">
+      <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.07)">
+        <div style="font-size:13px;font-weight:700;color:#1c1c1e;margin-bottom:12px">What changed</div>
+        <sc-for list="{{notes}}" as="n" hint-placeholder-count="6">
+          <div style="display:flex;gap:9px;margin-bottom:11px">
+            <div style="width:5px;height:5px;border-radius:50%;background:#32D74B;margin-top:6px;flex:none"></div>
+            <div style="font-size:12.5px;line-height:1.5;color:#48484a;text-wrap:pretty">{{n}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  glyph(id, cx, cy, s, color) {
+    const E = React.createElement; color = color || '#fff';
+    if (id === 'claude') {
+      const lines = [];
+      for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4 + Math.PI / 8; lines.push(E('line', { key: i, x1: cx + Math.cos(a) * 4 * s, y1: cy + Math.sin(a) * 4 * s, x2: cx + Math.cos(a) * 11.8 * s, y2: cy + Math.sin(a) * 11.8 * s, stroke: color, strokeWidth: 2.7 * s, strokeLinecap: 'round' })); }
+      return E('g', null, lines);
+    }
+    if (id === 'codex') {
+      const p = [];
+      for (let i = 0; i < 6; i++) p.push(E('ellipse', { key: i, cx: cx, cy: cy - 6.2 * s, rx: 3.1 * s, ry: 6.8 * s, fill: 'none', stroke: color, strokeWidth: 1.9 * s, transform: 'rotate(' + (i * 60) + ' ' + cx + ' ' + cy + ')' }));
+      return E('g', null, p);
+    }
+    const q = (x, y) => x.toFixed(1) + ' ' + y.toFixed(1);
+    return E('path', { d: 'M ' + q(cx, cy - 11.5 * s) + ' Q ' + q(cx + 1.9 * s, cy - 1.9 * s) + ' ' + q(cx + 11.5 * s, cy) + ' Q ' + q(cx + 1.9 * s, cy + 1.9 * s) + ' ' + q(cx, cy + 11.5 * s) + ' Q ' + q(cx - 1.9 * s, cy + 1.9 * s) + ' ' + q(cx - 11.5 * s, cy) + ' Q ' + q(cx - 1.9 * s, cy - 1.9 * s) + ' ' + q(cx, cy - 11.5 * s) + ' Z', fill: color });
+  }
+
+  renderVals() {
+    const GREEN = '#32D74B';
+    const provs = [
+      { id: 'claude', name: 'Claude', on: true, state: '25%' },
+      { id: 'codex', name: 'Codex', on: true, state: '0%' },
+      { id: 'gemini', name: 'Gemini', on: false, state: 'Off' }
+    ];
+    const segs = [
+      { label: 'Appearance', opts: ['Auto', 'Light', 'Dark'], cur: 'Auto' },
+      { label: 'Alert threshold', opts: ['80%', '90%', '95%'], cur: '95%' },
+      { label: 'Screen edge', opts: ['Left', 'Right'], cur: 'Right' },
+      { label: 'Dock style', opts: ['Notch', 'Glass'], cur: 'Notch' },
+      { label: 'Dock size', opts: ['S', 'M', 'L'], cur: 'S' }
+    ];
+    const togs = [
+      { label: 'Auto-hide', sub: 'Retract to a glass handle at the edge', on: true },
+      { label: 'Launch at login', sub: 'Start Tokenly when you sign in', on: false },
+      { label: 'Automatic updates', sub: 'Currently up to date', on: true, hasButton: true }
+    ];
+    const div = (i, c) => i === 0 ? 'none' : '0.5px solid ' + c;
+    const mkProv = (dark) => provs.map((p, i) => ({
+      name: p.name, state: p.state, divider: div(i, dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.07)'),
+      glyph: this.glyph(p.id, 12, 12, 0.78, dark ? (p.on ? '#fff' : 'rgba(255,255,255,.34)') : (p.on ? '#1d1d1f' : '#b0b0b5')),
+      togBg: p.on ? GREEN : (dark ? 'rgba(255,255,255,.14)' : '#e3e3e7'), togX: p.on ? 15.5 : 1.5
+    }));
+    const mkSeg = (dark) => segs.map((s, i) => ({
+      label: s.label, divider: div(i, dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.07)'),
+      opts: s.opts.map(o => ({
+        label: o,
+        fg: o === s.cur ? (dark ? '#fff' : '#1d1d1f') : (dark ? 'rgba(255,255,255,.5)' : '#6e6e73'),
+        bg: o === s.cur ? (dark ? 'rgba(255,255,255,.19)' : '#fff') : 'transparent',
+        shadow: o === s.cur ? (dark ? 'inset 0 0.5px 0 rgba(255,255,255,.22)' : '0 1px 2px rgba(0,0,0,.12), 0 0 0 0.5px rgba(0,0,0,.05)') : 'none',
+        weight: o === s.cur ? 590 : 400
+      }))
+    }));
+    const mkTog = (dark) => togs.map((t, i) => ({
+      label: t.label, sub: t.sub, hasButton: !!t.hasButton, divider: div(i, dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.07)'),
+      togBg: t.on ? GREEN : (dark ? 'rgba(255,255,255,.14)' : '#e3e3e7'), togX: t.on ? 15.5 : 1.5
+    }));
+    return {
+      providers: mkProv(true), segRows: mkSeg(true), toggleRows: mkTog(true),
+      providersL: mkProv(false), segRowsL: mkSeg(false), toggleRowsL: mkTog(false),
+      notes: [
+        '13px row text on 38–40px rows instead of 22px type — matches System Settings density, so the panel is ~40% shorter.',
+        'Green is reserved for “on”. Selected segments are neutral (raised white / translucent pill) the way macOS draws them.',
+        'Everything lives in three inset grouped lists with hairline separators — no floating rows on a bare sheet.',
+        'Section labels collapsed into row labels: “Alert threshold”, “Screen edge”, “Dock style”, “Dock size” now read inline, right-aligned controls.',
+        'Provider rows gained live usage on the right and dim their glyph when off; drag handle is a subtle two-line grip.',
+        'Header carries the app icon + version; About text became quiet 11.5px footnote copy, Quit is a hover-only red.',
+        'New “Appearance” row — Auto / Light / Dark. Auto follows the system; Light themes the dock, callout and this panel (semantic ring colors never change).'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

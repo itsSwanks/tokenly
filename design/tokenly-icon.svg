@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 128 128">
+<defs>
+<linearGradient id="aur" x1="0" y1="0" x2="0.55" y2="1">
+<stop offset="0" stop-color="#8fd0de"></stop><stop offset="0.45" stop-color="#3d97ad"></stop><stop offset="0.8" stop-color="#186079"></stop><stop offset="1" stop-color="#0d3c54"></stop>
+</linearGradient>
+<radialGradient id="vig" cx="0.28" cy="-0.06" r="1.1">
+<stop offset="0" stop-color="#ffffff" stop-opacity="0.28"></stop><stop offset="0.52" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+<clipPath id="tile"><rect width="128" height="128" rx="29"></rect></clipPath>
+</defs>
+<g clip-path="url(#tile)">
+<rect width="128" height="128" fill="url(#aur)"></rect>
+<rect width="128" height="128" fill="url(#vig)"></rect>
+<rect x="16" y="16" width="96" height="96" rx="20" fill="#ffffff" fill-opacity="0.13" stroke="#ffffff" stroke-opacity="0.34"></rect>
+<rect x="16.5" y="16.5" width="95" height="1.5" rx="0.75" fill="#ffffff" fill-opacity="0.35"></rect>
+<rect x="37.1" y="32" width="53.8" height="64" rx="16" fill="none" stroke="#ffffff" stroke-opacity="0.92" stroke-width="6.4"></rect>
+<rect x="83.8" y="47.4" width="14.1" height="33.3" rx="7" fill="#ffffff" fill-opacity="0.92"></rect>
+<circle cx="90.9" cy="56.1" r="2.6" fill="#0f9d3f"></circle>
+<circle cx="90.9" cy="64" r="2.6" fill="#b3a900"></circle>
+<circle cx="90.9" cy="71.9" r="2.6" fill="#c9500f"></circle>
+</g>
+</svg>
