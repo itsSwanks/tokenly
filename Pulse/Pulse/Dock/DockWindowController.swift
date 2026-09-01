@@ -73,7 +73,10 @@ final class DockWindowController {
         guard let screen else { return }
         render(on: screen)
         reposition(on: screen, animated: false)
-        if !collapsed { panel.orderFrontRegardless() }
+        if !collapsed {
+            panel.orderFrontRegardless()
+            ensureExpandedOnScreen()
+        }
     }
 
     /// Rebuild cells + layout from current preferences and statuses.
@@ -137,15 +140,31 @@ final class DockWindowController {
                 panel.invalidateShadow()
                 panel.alphaValue = 0
                 panel.orderFrontRegardless()
-                fade(to: 1, animated: animated, completion: nil)
+                fade(to: 1, animated: animated) { [weak self] in self?.ensureExpandedOnScreen() }
             } else {
                 // A previous fade-collapse (a display since unplugged) could have left the
                 // panel transparent; the slide has to arrive visible.
                 panel.alphaValue = 1
                 if animated { panel.setFrame(hidden, display: false) }
                 panel.orderFrontRegardless()
-                slide(to: resting, animated: animated) { [weak self] in self?.panel.invalidateShadow() }
+                slide(to: resting, animated: animated) { [weak self] in
+                    self?.panel.invalidateShadow()
+                    self?.ensureExpandedOnScreen()
+                }
             }
+        }
+    }
+
+    /// The expand's own order-front can be silently swallowed: after a sleep/wake or display
+    /// reattach the WindowServer may have dropped the panel from its on-screen list while AppKit
+    /// still counts it visible (see `FloatingPanel.ensureOnScreen`). The dock then slides out
+    /// into nothing — and the handle is gone too, because expanding hid it — until relaunch.
+    /// Re-check once the expand has settled, a beat after the order, which is the earliest the
+    /// server's list can be trusted; skipped when a collapse won the race meanwhile.
+    private func ensureExpandedOnScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self, !self.collapsed else { return }
+            self.panel.ensureOnScreen()
         }
     }
 

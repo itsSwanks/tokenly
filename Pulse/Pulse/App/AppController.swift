@@ -163,18 +163,21 @@ final class AppController {
 
     private func mouseMoved(to p: NSPoint) {
         // Points that aren't on the dock's screen produce no distance at all, so a cursor parked
-        // on another display neither expands nor collapses this one.
+        // on another display neither expands nor collapses this one. The distance is to the
+        // *handle* while the dock rests — only a halo around those few dots expands it, not the
+        // whole screen-height edge — and to the dock itself once it is out, so the grace zone
+        // follows what is actually on screen.
         guard let screen = dock.screen,
-              let distance = DockPositioner.distanceToEdge(point: p, edge: prefs.edge,
-                                                           visible: screen.visibleFrame, screenFrame: screen.frame)
+              let distance = DockPositioner.distance(from: p,
+                                                     to: edge.state == .collapsed ? dock.handle.panel.frame : dock.panel.frame,
+                                                     screenFrame: screen.frame)
         else { return }
         let holdOpen = hover.pinnedIndex != nil || settingsOpen
         let wasCounting = graceCheckTimer != nil
         switch edge.update(distance: distance, holdOpen: holdOpen, now: Date()) {
         case .expand:
-            // The 9 pt handle sits wholly inside the 44 pt `edgeProximity` band, so the cursor
-            // reaching it expands the dock from here; the handle window itself never has to
-            // receive a mouse event.
+            // The cursor entering the `edgeProximity` halo around the handle expands the dock
+            // from here; the handle window itself never has to receive a mouse event.
             cancelGraceCheck()
             dock.setCollapsed(false, animated: true)
         case .collapse:

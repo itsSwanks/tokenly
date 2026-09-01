@@ -55,6 +55,13 @@ final class CalloutWindowController {
         panel.alphaValue = 1
         panel.orderFrontRegardless()
         isVisible = true
+        // Same post-sleep re-check as the dock (`FloatingPanel.ensureOnScreen`): a swallowed
+        // order-front would otherwise leave every hover calling out into nothing until relaunch.
+        // A beat later, because the server's on-screen list only updates a turn after the order.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self, self.isVisible else { return }
+            self.panel.ensureOnScreen()
+        }
         // Set after the panel is on screen, and inside a `withAnimation`: this assignment is what
         // *inserts* the glass in `CalloutView`, and `.glassEffectTransition` plays only for an
         // insertion carried by an animation transaction.

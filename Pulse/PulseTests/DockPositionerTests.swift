@@ -40,25 +40,47 @@ import CoreGraphics
     // The whole display, of which `visible` is the part left over after the menu bar and Dock.
     var screenFrame: CGRect { CGRect(x: 0, y: 0, width: 1440, height: 900) }
 
-    @Test func distanceToTheRightEdgeIsMeasuredFromTheVisibleFrame() {
-        let near = DockPositioner.distanceToEdge(point: CGPoint(x: 1430, y: 400), edge: .right, visible: visible, screenFrame: screenFrame)
-        let expectedNear: CGFloat = 10
-        #expect(near == expectedNear)
-        // Inside the screen but above the visible frame (the menu-bar strip) still counts.
-        let inMenuBar = DockPositioner.distanceToEdge(point: CGPoint(x: 1430, y: 890), edge: .right, visible: visible, screenFrame: screenFrame)
-        #expect(inMenuBar == expectedNear)
+    // The collapsed handle the trigger halo surrounds, resting against the right edge.
+    var handleFrame: CGRect { CGRect(x: 1431, y: 380, width: 9, height: 69) }
+
+    @Test func distanceIsZeroInsideTheTarget() {
+        #expect(DockPositioner.distance(from: CGPoint(x: 1435, y: 400), to: handleFrame, screenFrame: screenFrame) == 0)
     }
 
-    @Test func distanceToTheLeftEdgeGrowsRightward() {
-        let d = DockPositioner.distanceToEdge(point: CGPoint(x: 37, y: 400), edge: .left, visible: visible, screenFrame: screenFrame)
-        let expected: CGFloat = 37
+    @Test func distanceBesideTheTargetIsTheHorizontalGap() {
+        let d = DockPositioner.distance(from: CGPoint(x: 1400, y: 400), to: handleFrame, screenFrame: screenFrame)
+        let expected: CGFloat = 31
+        #expect(d == expected)
+    }
+
+    @Test func distanceAboveTheTargetIsTheVerticalGap() {
+        let d = DockPositioner.distance(from: CGPoint(x: 1435, y: 500), to: handleFrame, screenFrame: screenFrame)
+        let expected: CGFloat = 51
+        #expect(d == expected)
+    }
+
+    @Test func distanceAtACornerIsTheLargerAxisGap() {
+        // 31 pt beside the handle and 51 pt above it: the halo is per-axis, so the trigger
+        // reaches as far vertically as horizontally and no further — no rounded corners.
+        let d = DockPositioner.distance(from: CGPoint(x: 1400, y: 500), to: handleFrame, screenFrame: screenFrame)
+        let expected: CGFloat = 51
+        #expect(d == expected)
+    }
+
+    @Test func theMenuBarStripStillCountsAsOnScreen() {
+        // Inside the screen but above the visible frame: a handle parked at the top of the
+        // visible frame must stay reachable from the menu-bar strip.
+        let top = CGRect(x: 1431, y: 811, width: 9, height: 64)
+        let d = DockPositioner.distance(from: CGPoint(x: 1435, y: 890), to: top, screenFrame: screenFrame)
+        let expected: CGFloat = 15
         #expect(d == expected)
     }
 
     @Test func aPointOnAnotherDisplayHasNoDistance() {
-        // A second display to the right: without the screen test this would read as a large
-        // negative number and count as "at the edge".
-        #expect(DockPositioner.distanceToEdge(point: CGPoint(x: 2200, y: 400), edge: .right, visible: visible, screenFrame: screenFrame) == nil)
-        #expect(DockPositioner.distanceToEdge(point: CGPoint(x: -300, y: 400), edge: .left, visible: visible, screenFrame: screenFrame) == nil)
+        // A second display to the right: without the screen test the cursor over there would
+        // still measure a finite distance and could pop the dock open on a screen the user
+        // isn't pointing at.
+        #expect(DockPositioner.distance(from: CGPoint(x: 2200, y: 400), to: handleFrame, screenFrame: screenFrame) == nil)
+        #expect(DockPositioner.distance(from: CGPoint(x: -300, y: 400), to: handleFrame, screenFrame: screenFrame) == nil)
     }
 }

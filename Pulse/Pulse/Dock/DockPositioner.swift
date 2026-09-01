@@ -20,18 +20,21 @@ enum DockPositioner {
         return Double((frame.midY - visible.minY) / visible.height)
     }
 
-    /// How far the cursor is from the dock's edge, or `nil` when the cursor isn't on that
-    /// screen at all.
+    /// How far the cursor is from `target` — the handle while the dock rests, the dock itself
+    /// once it is out — or `nil` when the cursor isn't on that screen at all. Zero inside the
+    /// rect; outside, the larger of the two per-axis gaps, so a threshold reaches equally far
+    /// beside, above and below the target and no further. Measuring against a rect rather than
+    /// the bare edge is what keeps the trigger local: the edge is as tall as the screen, the
+    /// handle is a few dots.
     ///
-    /// Two rectangles, deliberately: the distance is measured against `visible`, because that
-    /// is where `frame(windowSize:edge:yFraction:in:)` puts the dock — on a display whose macOS
-    /// Dock occupies the same edge, measuring against the full screen would push the trigger
-    /// zone behind it. Membership is tested against the whole `screenFrame`, so the menu-bar and
-    /// Dock strips still count as "on this screen"; without that test a cursor on *another*
-    /// display would produce a large negative number, which reads as "closer than close" and
-    /// pops the dock open on a screen the user isn't pointing at.
-    static func distanceToEdge(point: CGPoint, edge: ScreenEdge, visible: CGRect, screenFrame: CGRect) -> CGFloat? {
+    /// Membership is tested against the whole `screenFrame`, so the menu-bar and Dock strips
+    /// still count as "on this screen"; without that test a cursor on *another* display would
+    /// still measure a finite distance and could pop the dock open on a screen the user isn't
+    /// pointing at.
+    static func distance(from point: CGPoint, to target: CGRect, screenFrame: CGRect) -> CGFloat? {
         guard screenFrame.contains(point) else { return nil }
-        return edge == .right ? visible.maxX - point.x : point.x - visible.minX
+        let dx = max(target.minX - point.x, point.x - target.maxX, 0)
+        let dy = max(target.minY - point.y, point.y - target.maxY, 0)
+        return max(dx, dy)
     }
 }

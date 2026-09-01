@@ -19,6 +19,7 @@
 		152FA21E8ECC7BACDAFF4E08 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB296DB9269F7757FEBBEAA /* RingView.swift */; };
 		1582343C2C4EF9A6387CDBAC /* FakeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C5C496DBB8C711B3CC5BC1 /* FakeProvider.swift */; };
 		17151A61DB612DD1299501E3 /* HoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6ABA328AC611FB0A039E36 /* HoverCoordinator.swift */; };
+		1E6FAF881D56560411A0D89D /* FloatingPanelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA922D3F6C3654F547D310D /* FloatingPanelTests.swift */; };
 		242A2316CC689AEC668E1CFE /* MarginHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7AB6DDEE576E0C8ED9D2E4 /* MarginHostingView.swift */; };
 		25710F4D00266A1760713D57 /* AlertCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71178307830FDF67F93A9523 /* AlertCenterTests.swift */; };
 		257BDA6C3EAB69F66E73DEEB /* PollDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128B8606628B6F2D76C519F0 /* PollDriverTests.swift */; };
@@ -107,6 +108,7 @@
 		13FEF2D2118D74C3572DF349 /* Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F144F07D80E16B3AC49BDE /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		184585749CBA9AA6CB2F2C66 /* EdgeTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeTrackerTests.swift; sourceTree = "<group>"; };
+		1DA922D3F6C3654F547D310D /* FloatingPanelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelTests.swift; sourceTree = "<group>"; };
 		203F47F25A4B9436E4D153B0 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		2352402C81A9C4BC0667DB01 /* CalloutPositionerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutPositionerTests.swift; sourceTree = "<group>"; };
 		26FF147B25FAE1F67C50F83E /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				F4D0823EF99B45A4668FF3E3 /* DockPositionerTests.swift */,
 				77042C45506BA8AB3AC02A22 /* DockShapeTests.swift */,
 				184585749CBA9AA6CB2F2C66 /* EdgeTrackerTests.swift */,
+				1DA922D3F6C3654F547D310D /* FloatingPanelTests.swift */,
 				12EDB58FA02EC6A8000453D0 /* HandleLayoutTests.swift */,
 				13D7CBF8C1421BD80D624963 /* HoverCoordinatorTests.swift */,
 				6F062DAE7FC1FFC04D6C0667 /* MotionTests.swift */,
@@ -496,6 +499,7 @@
 				057D262180058441235618D1 /* EdgeTrackerTests.swift in Sources */,
 				B3415BE0960C4702D7B50203 /* FakeDefaults.swift in Sources */,
 				1582343C2C4EF9A6387CDBAC /* FakeProvider.swift in Sources */,
+				1E6FAF881D56560411A0D89D /* FloatingPanelTests.swift in Sources */,
 				89CAD1E7F248743F63C80D7E /* HandleLayoutTests.swift in Sources */,
 				83B79929164A55E68FFD9E22 /* HoverCoordinatorTests.swift in Sources */,
 				F958CC75092E7D25A111FAA1 /* MotionTests.swift in Sources */,

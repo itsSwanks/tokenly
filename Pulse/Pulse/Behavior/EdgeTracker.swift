@@ -1,7 +1,8 @@
 import Foundation
 
-/// Auto-hide state machine (spec §4.4). Fed the cursor's distance to the dock's
-/// screen edge; decides when to slide out and, after a grace period, back in.
+/// Auto-hide state machine (spec §4.4). Fed the cursor's distance to the resting
+/// handle (collapsed) or the dock itself (expanded); decides when to slide out
+/// and, after a grace period, back in.
 struct EdgeTracker: Equatable {
     enum State: Equatable { case collapsed, expanded }
     enum Transition: Equatable { case expand, collapse }

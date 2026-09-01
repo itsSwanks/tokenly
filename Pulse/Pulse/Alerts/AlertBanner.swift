@@ -125,6 +125,14 @@ final class AlertBannerWindowController {
         }
         hideToken += 1
         let token = hideToken
+        // Same post-sleep re-check as the dock (`FloatingPanel.ensureOnScreen`): an alert whose
+        // order-front was swallowed would play out entirely off the WindowServer's list and the
+        // user would simply never see it. A beat later, because the server's on-screen list only
+        // updates a turn after the order.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self, token == self.hideToken, self.model.current != nil else { return }
+            self.panel.ensureOnScreen()
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.holdSeconds) { [weak self] in
             guard let self, token == self.hideToken else { return }
             self.dismissCurrent()

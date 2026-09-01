@@ -57,10 +57,16 @@ final class HandleWindowController {
         }, completionHandler: { [weak self] in
             // AppKit invokes animation completions on the main thread.
             MainActor.assumeIsolated {
+                guard let self else { return }
                 // A `setVisible(true)` may have raced ahead of this completion; only order out
-                // if the handle is still meant to be hidden.
-                guard let self, !self.isVisible else { return }
-                self.panel.orderOut(nil)
+                // if the handle is still meant to be hidden. A handle still meant to be shown
+                // gets the same post-sleep re-check as the dock (`FloatingPanel.ensureOnScreen`):
+                // its order-front, too, can be silently swallowed after a wake.
+                if self.isVisible {
+                    self.panel.ensureOnScreen()
+                } else {
+                    self.panel.orderOut(nil)
+                }
             }
         })
     }
