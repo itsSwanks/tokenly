@@ -3,14 +3,25 @@
     <channel>
         <title>Pulse</title>
         <item>
+            <title>0.2.1</title>
+            <pubDate>Tue, 01 Sep 2026 16:57:22 +0000</pubDate>
+            <sparkle:version>5</sparkle:version>
+            <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<style>.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}</style>
+<div class="n"><h2>Tokenly 0.2.1</h2><p>Dock reveals only when hovering the handle, and recovers itself after sleep/wake instead of vanishing until relaunch.</p></div>
+]]></description>
+            <enclosure url="https://github.com/itsSwanks/tokenly/releases/download/v0.2.1/Tokenly-0.2.1.dmg" length="3792174" type="application/octet-stream" sparkle:edSignature="x36f5ftanxLNSHj9u1pCSRYVf2+pYUmJBm+N4mcwNpECUVCQReS7NinRKYnUVczNNfw5PfRJJEtjAK9lwBRJBQ=="/>
+        </item>
+        <item>
             <title>0.2.0</title>
             <pubDate>Mon, 31 Aug 2026 19:21:58 +0000</pubDate>
             <sparkle:version>4</sparkle:version>
             <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<style>.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}</style>
-<div class="n"><h2>Tokenly 0.2.0</h2><p>Tokenly 0.2.0 — Liquid Glass UI, redesigned settings with Appearance, in-app limit alerts.</p></div>
-]]></description>
+            <description>&lt;style&gt;.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}&lt;/style&gt;
+&lt;div class="n"&gt;&lt;h2&gt;Tokenly 0.2.0&lt;/h2&gt;&lt;p&gt;Tokenly 0.2.0 — Liquid Glass UI, redesigned settings with Appearance, in-app limit alerts.&lt;/p&gt;&lt;/div&gt;
+</description>
             <enclosure url="https://github.com/itsSwanks/tokenly/releases/download/v0.2.0/Tokenly-0.2.0.dmg" length="3783124" type="application/octet-stream" sparkle:edSignature="dVgKf75c6XZwvoe856kxrBvM8+rdqAgIk7WMfjZxQsOZSxlmYaxRGiDiVJ7+tyQX0GRhNcio7n75MbGCsHX8Dw=="/>
         </item>
         <item>
