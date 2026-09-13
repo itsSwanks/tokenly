@@ -3,14 +3,25 @@
     <channel>
         <title>Pulse</title>
         <item>
+            <title>0.2.2</title>
+            <pubDate>Sun, 13 Sep 2026 20:45:18 +0000</pubDate>
+            <sparkle:version>6</sparkle:version>
+            <sparkle:shortVersionString>0.2.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<style>.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}</style>
+<div class="n"><h2>Tokenly 0.2.2</h2><p>Claude usage no longer asks for your keychain password: the token is read the way Claude Code itself reads it, so the prompt is gone for good, updates included.</p></div>
+]]></description>
+            <enclosure url="https://github.com/itsSwanks/tokenly/releases/download/v0.2.2/Tokenly-0.2.2.dmg" length="3793345" type="application/octet-stream" sparkle:edSignature="TlEjp+oeEOL9AxRi381zkA3CufNsy8+WfjGrp9paVmO6IHUrF6fg7m1u6M4x3S2Yus+tG9glL25ipGjdbZYzCw=="/>
+        </item>
+        <item>
             <title>0.2.1</title>
             <pubDate>Tue, 01 Sep 2026 16:57:22 +0000</pubDate>
             <sparkle:version>5</sparkle:version>
             <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<style>.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}</style>
-<div class="n"><h2>Tokenly 0.2.1</h2><p>Dock reveals only when hovering the handle, and recovers itself after sleep/wake instead of vanishing until relaunch.</p></div>
-]]></description>
+            <description>&lt;style&gt;.n{font:13px/1.55 -apple-system,system-ui,sans-serif;padding:2px 2px 6px}.n h2{font-size:17px;margin:0 0 10px}.n p{margin:0 0 8px;opacity:.85}&lt;/style&gt;
+&lt;div class="n"&gt;&lt;h2&gt;Tokenly 0.2.1&lt;/h2&gt;&lt;p&gt;Dock reveals only when hovering the handle, and recovers itself after sleep/wake instead of vanishing until relaunch.&lt;/p&gt;&lt;/div&gt;
+</description>
             <enclosure url="https://github.com/itsSwanks/tokenly/releases/download/v0.2.1/Tokenly-0.2.1.dmg" length="3792174" type="application/octet-stream" sparkle:edSignature="x36f5ftanxLNSHj9u1pCSRYVf2+pYUmJBm+N4mcwNpECUVCQReS7NinRKYnUVczNNfw5PfRJJEtjAK9lwBRJBQ=="/>
         </item>
         <item>
