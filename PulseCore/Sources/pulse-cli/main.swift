@@ -70,7 +70,7 @@ func capture() async {
 
     // Claude
     do {
-        let creds = try ClaudeCredentials.load(home: home, keychain: SecKeychainReader(), now: Date())
+        let creds = try ClaudeCredentials.load(home: home, keychain: SecurityToolKeychainReader(), now: Date())
         let request = HTTPRequest(method: .get, url: URL(string: "https://api.anthropic.com/api/oauth/usage")!, headers: [
             "Authorization": "Bearer \(creds.accessToken)",
             "anthropic-beta": "oauth-2025-04-20",

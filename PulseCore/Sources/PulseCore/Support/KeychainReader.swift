@@ -1,52 +1,54 @@
 import Foundation
-import Security
 
 public protocol KeychainReading: Sendable {
     /// Password bytes of the generic-password item with this service name, or nil.
     func genericPassword(service: String) -> Data?
 }
 
-/// Reads another app's generic-password item. macOS prompts the user the first time
-/// ("Pulse wants to access …"); this reader never writes, updates, or deletes.
+/// Reads another app's generic-password item by running `/usr/bin/security`, the tool Claude Code
+/// itself uses to write and read its item. An item created by that tool carries the tool on its
+/// access list, so the read completes with no authorization prompt.
 ///
-/// An explicit user refusal latches the Keychain off for the life of the process:
-/// `errSecAuthFailed` (Deny) and `errSecUserCanceled` mean asking again would only re-prompt,
-/// and a polling app asks on every cycle. Every other failure is treated as transient and is
-/// retried on the next poll — in particular `errSecInteractionNotAllowed`, which the keychain
-/// returns around sleep/wake and the lock screen when it cannot show UI. Latching on those
-/// disconnected Claude until relaunch after every Mac sleep (one bad tick flipped the latch,
-/// and the loader then fell back to an expired credentials file forever).
-/// `errSecItemNotFound` is a normal answer (no such item) and never latches.
-public final class SecKeychainReader: KeychainReading {
-    private let lock = NSLock()
-    nonisolated(unsafe) private var unavailable = false
+/// Calling the Security framework directly from this process used to raise macOS's "wants to use
+/// your confidential information" password dialog instead. The app is ad-hoc signed, so its
+/// identity is the cdhash of one exact build: *Always Allow* bound to that build and every update
+/// or rebuild asked again, *Allow* asked again on the next poll, and *Deny* left the loader with
+/// nothing but an expired credentials file — reported as an expired session that running
+/// `claude` could never refresh.
+///
+/// This reader never writes, updates, or deletes. A tool that does not return (a keychain-unlock
+/// dialog nobody answers) is abandoned after `timeout` so a poll can never wedge on it.
+public struct SecurityToolKeychainReader: KeychainReading {
+    private let tool: URL
+    private let timeout: TimeInterval
 
-    public init() {}
-
-    /// True only for statuses that mean the *user* refused — the sole reasons to stop asking.
-    static func latches(_ status: OSStatus) -> Bool {
-        status == errSecAuthFailed || status == errSecUserCanceled
+    public init(tool: URL = URL(fileURLWithPath: "/usr/bin/security"), timeout: TimeInterval = 10) {
+        self.tool = tool
+        self.timeout = timeout
     }
 
     public func genericPassword(service: String) -> Data? {
-        guard !lock.withLock({ unavailable }) else { return nil }
-
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne,
-        ]
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-        switch status {
-        case errSecSuccess: return item as? Data
-        case errSecItemNotFound: return nil
-        default:
-            if Self.latches(status) {
-                lock.withLock { unavailable = true }
-            }
+        let process = Process()
+        process.executableURL = tool
+        process.arguments = ["find-generic-password", "-s", service, "-w"]
+        let stdout = Pipe()
+        process.standardOutput = stdout
+        process.standardError = FileHandle.nullDevice
+        do {
+            try process.run()
+        } catch {
             return nil
         }
+
+        let watchdog = DispatchWorkItem { if process.isRunning { process.terminate() } }
+        DispatchQueue.global().asyncAfter(deadline: .now() + timeout, execute: watchdog)
+        // Drain before waiting: a pipe left unread fills and blocks the child.
+        let output = stdout.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        watchdog.cancel()
+
+        guard process.terminationReason == .exit, process.terminationStatus == 0 else { return nil }
+        // `-w` terminates the secret with a newline that is not part of it.
+        return output.last == UInt8(ascii: "\n") ? output.dropLast() : output
     }
 }

@@ -36,8 +36,7 @@ import Testing
         #expect(creds.accessToken == "tok-keychain")
     }
 
-    // A Keychain read costs the user a macOS authorization prompt, so an unexpired file must
-    // answer on its own. Asserting `reads == 0` is the point of the test; that the file token
+    // A Keychain read spawns a process, so an unexpired file must answer on its own. Asserting `reads == 0` is the point of the test; that the file token
     // wins over a *different* Keychain token only proves the Keychain wasn't preferred.
     @Test func unexpiredFileNeverTouchesKeychain() throws {
         let home = TempHome(); defer { home.remove() }

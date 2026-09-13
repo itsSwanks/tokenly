@@ -11,7 +11,7 @@ public struct ClaudeProvider: Provider {
     private let userAgent: String
 
     public init(home: URL = CredentialFile.defaultHome(),
-                keychain: any KeychainReading = SecKeychainReader(),
+                keychain: any KeychainReading = SecurityToolKeychainReader(),
                 userAgent: String? = nil) {
         self.home = home
         self.keychain = keychain

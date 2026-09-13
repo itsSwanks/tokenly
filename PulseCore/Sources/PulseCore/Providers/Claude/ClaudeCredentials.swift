@@ -46,11 +46,12 @@ public struct ClaudeCredentials: Sendable, Equatable {
         )
     }
 
-    /// File first: reading the Keychain item costs the user a macOS authorization prompt, so it is
-    /// consulted only when the on-disk file cannot answer. A file that decodes and is unexpired is
-    /// returned without touching the Keychain at all; a file that is missing, undecodable, or
-    /// expired falls through to the Keychain, which Claude Code keeps current. The API's own
-    /// 401/403 is the scope gate — this loader does not pre-check `scopes`.
+    /// File first: the on-disk file is a plain read, the Keychain a subprocess, so the Keychain is
+    /// consulted only when the file cannot answer. A file that decodes and is unexpired is returned
+    /// without touching the Keychain at all; a file that is missing, undecodable, or expired falls
+    /// through to the Keychain, which Claude Code keeps current (on macOS it stores the live token
+    /// there and writes the file only as a fallback, so an old file is normally stale). The API's
+    /// own 401/403 is the scope gate — this loader does not pre-check `scopes`.
     public static func load(home: URL, keychain: any KeychainReading, now: Date) throws(ProviderError) -> ClaudeCredentials {
         let fileCandidate = decode(FileManager.default.contents(atPath: home.appendingPathComponent(filePath).path))
         if let fileCandidate, !fileCandidate.isExpired(at: now) {

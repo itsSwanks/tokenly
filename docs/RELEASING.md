@@ -157,9 +157,9 @@ Two ways past it, both documented in the README:
 Sparkle-installed updates do not repeat any of this — the updater replaces the bundle in place and
 no quarantine flag is attached.
 
-Separately, reading the Claude Keychain item prompts once per app version, because the ad-hoc
-signature changes with every build and macOS treats each version as a different program. *Always
-Allow* answers it for that version.
+The Claude Keychain item never prompts: it is read through `/usr/bin/security`, which created it
+and so sits on its access list, rather than through the Security framework from the ad-hoc-signed
+app (whose identity changes with every build, so an *Always Allow* could never outlive a version).
 
 ## Testing an update locally
 

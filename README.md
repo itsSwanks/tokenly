@@ -159,9 +159,9 @@ is ever written back to your credential files (a refreshed Gemini token lives on
 and the only other host Tokenly contacts is GitHub, for the update feed. No analytics, no
 accounts, no telemetry.
 
-Two honest prompts you may see, both from macOS itself: reading the Claude Keychain item asks
-once per app version (the ad-hoc signature changes with every build — click *Always Allow*),
-and Tokenly only asks at all when the credentials file is missing or expired.
+Tokenly reads the Claude Keychain item through the same `/usr/bin/security` tool Claude Code
+uses to write it, so there is no keychain password prompt — not on first launch, not after an
+update.
 
 Don't take our word for any of this — the whole app is right here. Read every line.
 
